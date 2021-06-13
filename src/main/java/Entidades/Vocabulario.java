@@ -1,4 +1,4 @@
-/*package Entidades;
+package Entidades;
 
 import CapaLogica.Consulta;
 import javax.print.Doc;
@@ -113,4 +113,3 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
         }
     }
 }
-*/
