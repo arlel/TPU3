@@ -1,11 +1,12 @@
 Entidades\Palabra.class
 CapaLogica\Respuesta.class
 api\Buscador.class
-dlc\tpu3\JAXRSConfiguration.class
 Entidades\Documento.class
-dlc\tpu3\resources\JavaEE8Resource.class
-Entidades\Vocabulario.class
-api\BuscadorEndPoint.class
 Entidades\Posteo.class
 CapaLogica\Consulta.class
 Entidades\DocumentoXPalabra.class
+dlc\tpu3\JAXRSConfiguration.class
+dlc\tpu3\resources\JavaEE8Resource.class
+Entidades\Vocabulario.class
+api\BuscadorEndPoint.class
+CapaAccesoADB\DocumentoController.class
