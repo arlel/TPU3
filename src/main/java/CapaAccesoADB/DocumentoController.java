@@ -21,6 +21,8 @@ import javax.persistence.PersistenceUnit;
  */
 @ApplicationScoped
 public class DocumentoController {
+    
+    public DocumentoController(){}
 
     public List<Documento> consultarTodos(){ 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
@@ -34,11 +36,12 @@ public class DocumentoController {
     public List<Documento> consultarPorNombre(String NombreDoc){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
-        List<Documento> lista = em.createQuery("select * from DOCUMENTO where NombreDoc Like '"+NombreDoc+"'", Documento.class).getResultList();
+        List<Documento> lista = em.createNativeQuery("select * from DOCUMENTO d where d.NombreDoc Like '"+NombreDoc+"'", Documento.class).getResultList();
         em.close();
         emf.close();
         return lista;        
     }
+
     
     public Documento consultarPorID(int id){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");

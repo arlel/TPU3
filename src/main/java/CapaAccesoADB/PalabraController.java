@@ -22,6 +22,8 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class PalabraController {
    
+    public PalabraController(){}
+    
     public List<Palabra> consultarTodos(){         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();        

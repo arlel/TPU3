@@ -2,17 +2,18 @@ package Entidades;
 
 import javax.persistence.*;
 import CapaAccesoADB.PalabraController;
+import java.io.Serializable;
 import javax.inject.Inject;
 
 @Entity @Table(name="PALABRA")
-public class Palabra {
+public class Palabra implements Serializable{
     
     @Id @GeneratedValue(strategy=GenerationType.AUTO) private int idPalabra;
     @Column private int n;
     @Column private String nombre;
-    @Column private int maxTF;
+    @Column private int maxTF;    
+    private PalabraController pc = new PalabraController();
     
-    @Inject PalabraController pc;
     public void setIdPalabra(int idPalabra) {
         this.idPalabra = idPalabra;
     }

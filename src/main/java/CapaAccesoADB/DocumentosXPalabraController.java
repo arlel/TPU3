@@ -22,6 +22,9 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPalabra
     
+    
+    public DocumentosXPalabraController(){}
+    
     public List<DocumentoXPalabra> consultarTodos(){ 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();

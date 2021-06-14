@@ -1,18 +1,19 @@
 package Entidades;
 
 import CapaAccesoADB.DocumentoController;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.*;
 
 @Entity @Table(name="DOCUMENTO")
-public class Documento {
+public class Documento implements Serializable{
     
     @Id @GeneratedValue(strategy=GenerationType.AUTO) private int idDoc;
     @Column private String urlDoc;
     @Column private String nombre;
-    @Inject DocumentoController dc;
+    private DocumentoController dc = new DocumentoController();
     public Documento(){}
     
     public Documento(String ruta, String nombre) {
@@ -39,14 +40,17 @@ public class Documento {
     }
     
     public void persistir(){
+        
+        String nom = this.nombre;
         List<Documento> lista = dc.consultarPorNombre(this.nombre);
+        if(lista.size()>0 ){
         Iterator<Documento> it = lista.iterator();
         while( it.hasNext()) {
             Documento i = it.next();
             if(this.equals(i)){
                 return;
             }            
-        }        
+        }    }    
         dc.agregar(this);
     }
     

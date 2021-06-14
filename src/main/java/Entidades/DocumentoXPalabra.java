@@ -6,6 +6,7 @@
 package Entidades;
 
 import CapaAccesoADB.DocumentosXPalabraController;
+import java.io.Serializable;
 import javax.inject.Inject;
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
  * @author Gonza
  */
 @Entity @Table(name="DOCUMENTOSXPALABRA")
-public class DocumentoXPalabra {
+public class DocumentoXPalabra implements Serializable {
     @Id
     private int idDoc;
     @Id
@@ -22,8 +23,9 @@ public class DocumentoXPalabra {
     
     @Column private int tf;
     
-    @Inject DocumentosXPalabraController dpc;    
-
+    private DocumentosXPalabraController dpc = new DocumentosXPalabraController();
+    
+    public DocumentoXPalabra(){}
     public DocumentoXPalabra(String doc, String tief, int idPalabrita) {
         this.idDoc = Integer.parseInt(doc);
         this.tf = Integer.parseInt(tief);
@@ -54,9 +56,6 @@ public class DocumentoXPalabra {
         this.tf = tf;
     }
 
-    public DocumentoXPalabra() {
-        
-    }
 
     public DocumentoXPalabra(int idDoc, int idPalabra, int tf) {
         this.idDoc = idDoc;
