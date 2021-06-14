@@ -81,7 +81,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 
     public void setRutas() throws IOException {
         //Esto se puede hacer Consultando a Google drive O en una carpeta LOCAL del proyecto.
-        Files.walk(Paths.get("F:\\AccesosWindows\\Documentos\\NetBeansProjects\\TPU3\\src\\main\\webapp\\recursos")).forEach(ruta-> {
+        Files.walk(Paths.get("C:\\Users\\sebas\\Desktop\\facultad\\DLC\\Tp1\\GIT\\TPU3\\src\\main\\webapp\\recursos")).forEach(ruta-> {
             if (Files.isRegularFile(ruta)) {
                 if(ruta==null) return;
                 this.rutas.add(ruta.toString());

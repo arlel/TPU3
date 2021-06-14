@@ -69,7 +69,8 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
-        em.persist(docXPalabra); //cambiarlo por un insert a ver si asi anda (?
+        em.createNativeQuery("insert into DOCUMENTOSXPALABRA(tf, idPalabra, idDoc) values(?, ?, ?)").setParameter(1, docXPalabra.getTf()).setParameter(2, docXPalabra.getIdPalabra()).setParameter(3, docXPalabra.getIdDoc()).executeUpdate();
+        //em.persist(docXPalabra); //cambiarlo por un insert a ver si asi anda (?
         em.flush();
         t.commit();  
         em.close();
