@@ -92,6 +92,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 
 
     public void setVocabulario(){
+        boolean salir = false;
         int count = 0;
         this.posteo = new Posteo(1000000);
         int posPosteo = 0;
@@ -129,12 +130,14 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                         {
                            if(stopwords[j].equals(str))
                               {
-                              continue;
+                                salir = true;
+                                break;
                               }
                         }
-                    
+                    if(salir)continue;
                     if(!tabla.containsKey(str)){
                         Palabra p = new Palabra();
+                        p.setNombre(str);
                         tabla.put(str, p);
                         p.setPosteo(posPosteo);
                         posPosteo++;
@@ -171,7 +174,9 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
             Iterator it3 = posteosPalabra.iterator();
             while(it3.hasNext()){
                 String[] cosa = (String[]) it3.next();
-                DocumentoXPalabra DXP = new DocumentoXPalabra(cosa[0], cosa[1], p.getIdPalabra());
+                Documento doc = new Documento();
+                doc.setNombre(cosa[0]);                
+                DocumentoXPalabra DXP = new DocumentoXPalabra(doc.getIdDocDeBase(), p.getIdPalabraDeBase(), Integer.parseInt(cosa[1]));
                 DXP.persistir();
             }            
                      

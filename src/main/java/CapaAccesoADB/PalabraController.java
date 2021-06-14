@@ -45,7 +45,7 @@ public class PalabraController {
     public Palabra getPalabraByNombre(String nombrePalabra){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();       
-        Palabra respuesta = (Palabra) em.createQuery("select * from PALABRA p where p.NombrePalabra LIKE '"+nombrePalabra+"'", Palabra.class);
+        Palabra respuesta = (Palabra) em.createQuery("select * from PALABRA p where p.NombrePalabra = '"+nombrePalabra+"'", Palabra.class).getSingleResult();
         em.close();
         emf.close();
         return respuesta;
@@ -64,7 +64,7 @@ public class PalabraController {
                      
     }
     
-    public void modificarOAgregar(Palabra p){
+    public void modificar(Palabra p){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();

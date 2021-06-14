@@ -7,6 +7,8 @@ package Entidades;
 
 import CapaAccesoADB.DocumentosXPalabraController;
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.*;
 
@@ -26,11 +28,6 @@ public class DocumentoXPalabra implements Serializable {
     @Transient private DocumentosXPalabraController dpc = new DocumentosXPalabraController();
     
     public DocumentoXPalabra(){}
-    public DocumentoXPalabra(String doc, String tief, int idPalabrita) {
-        this.idDoc = Integer.parseInt(doc);
-        this.tf = Integer.parseInt(tief);
-        this.idPalabra = idPalabrita;
-    }
 
     public int getIdDoc() {
         return idDoc;
@@ -55,8 +52,8 @@ public class DocumentoXPalabra implements Serializable {
     public void setTf(int tf) {
         this.tf = tf;
     }
-
-
+    
+    
     public DocumentoXPalabra(int idDoc, int idPalabra, int tf) {
         this.idDoc = idDoc;
         this.idPalabra = idPalabra;
@@ -64,7 +61,9 @@ public class DocumentoXPalabra implements Serializable {
     }
     
     public void persistir(){
-        dpc.modificar(this);
+        DocumentoXPalabra dxp = dpc.getById(idPalabra, idDoc);
+        if(dxp != null)        dpc.modificar(this);
+        else        dpc.agregar(this);
     }
     
 }

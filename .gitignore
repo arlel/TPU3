@@ -1,2 +1,19 @@
 
 *.txt
+target/classes/CapaAccesoADB/DocumentosXPalabraController.class
+target/classes/CapaAccesoADB/PalabraController.class
+target/classes/CapaLogica/Vocabulario.class
+target/classes/Entidades/Documento.class
+target/classes/Entidades/Palabra.class
+target/classes/Entidades/DocumentoXPalabra.class
+target/classes/Entidades/Posteo.class
+target/maven-archiver/pom.properties
+target/TPU3-1.war
+target/TPU3-1/WEB-INF/classes/CapaAccesoADB/DocumentosXPalabraController.class
+target/TPU3-1/WEB-INF/classes/CapaLogica/Vocabulario.class
+target/TPU3-1/WEB-INF/classes/CapaAccesoADB/PalabraController.class
+target/TPU3-1/WEB-INF/classes/Entidades/DocumentoXPalabra.class
+target/TPU3-1/WEB-INF/classes/Entidades/Documento.class
+target/TPU3-1/WEB-INF/classes/Entidades/DXPKey.class
+target/TPU3-1/WEB-INF/classes/Entidades/Posteo.class
+target/TPU3-1/WEB-INF/classes/Entidades/Palabra.class

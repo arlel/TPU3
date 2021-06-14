@@ -100,11 +100,20 @@ public class Palabra implements Serializable{
     }
     
     public void persistir(){        
-        maxTF= lista[1];
-        n= lista[0];
-        //El merge del jpa, si ya esta el objeto lo actualiza dandole valores nuevos
-        //Si no esta el objeto, lo crea
-        pc.modificarOAgregar(this); 
+        this.maxTF= lista[1];
+        this.n= lista[0];
+        Palabra p = pc.getPalabraByNombre(this.nombre);
+        if(p !=null){
+            this.setIdPalabra(p.getIdPalabra());
+            pc.modificar(this);
+            return;
+        }
+        pc.agregar(this); 
         
+    }
+    
+    public int getIdPalabraDeBase(){
+        Palabra p =pc.getPalabraByNombre(this.nombre);
+        return p.getIdPalabra();
     }
 }

@@ -21,7 +21,7 @@ public class Posteo {//Lista de posteo que enlaza para una palabra, todos sus do
 
     public void agregarDoc(Documento doc, int n, int tf){
         String[] documento = new String[2];
-        documento[0] = String.valueOf(doc.getIdDoc());
+        documento[0] = String.valueOf(doc.getNombre());
         documento[1] = String.valueOf(tf);
         lista[n].add(documento);
 
