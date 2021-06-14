@@ -47,7 +47,7 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
     public List<DocumentoXPalabra> getDocumentosXPalabraByIDPalabra(int idPalabra){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
-        List<DocumentoXPalabra> lista = em.createQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDDoc = "+idPalabra, DocumentoXPalabra.class).getResultList();
+        List<DocumentoXPalabra> lista = em.createNativeQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDDoc = "+idPalabra, DocumentoXPalabra.class).getResultList();
         em.close();
         emf.close();
         return lista; 
@@ -58,7 +58,7 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
         EntityManager em = emf.createEntityManager();
         String IdP = Integer.toString(idPalabra);
         String IdD = Integer.toString(idDocumento);
-        DocumentoXPalabra poust = em.createQuery("Select * from DOCUMENTOSXPALABRA d where d.IDDoc ="+IdD+" AND d.IDPalabra ="+IdP,DocumentoXPalabra.class).getSingleResult();
+        DocumentoXPalabra poust = (DocumentoXPalabra) em.createNativeQuery("Select * from DOCUMENTOSXPALABRA d where d.IDDoc ="+IdD+" AND d.IDPalabra ="+IdP,DocumentoXPalabra.class).getSingleResult();
         em.close();
         emf.close();
         return poust; 
@@ -69,7 +69,7 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
-        em.persist(docXPalabra);
+        em.persist(docXPalabra); //cambiarlo por un insert a ver si asi anda (?
         em.flush();
         t.commit();  
         em.close();

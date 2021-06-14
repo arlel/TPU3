@@ -61,9 +61,12 @@ public class DocumentoXPalabra implements Serializable {
     }
     
     public void persistir(){
-        DocumentoXPalabra dxp = dpc.getById(idPalabra, idDoc);
-        if(dxp != null)        dpc.modificar(this);
-        else        dpc.agregar(this);
+        
+        List<DocumentoXPalabra> dxp = dpc.getDocumentosXPalabraByIDPalabra(this.idPalabra);
+        if(!(dxp.isEmpty())){
+            dpc.modificar(this);
+        }
+        else dpc.agregar(this);
     }
     
 }

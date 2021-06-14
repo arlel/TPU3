@@ -42,10 +42,10 @@ public class PalabraController {
         return respuesta;
     }
     
-    public Palabra getPalabraByNombre(String nombrePalabra){
+    public List<Palabra> getPalabraByNombre(String nombrePalabra){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();       
-        Palabra respuesta = (Palabra) em.createQuery("select * from PALABRA p where p.NombrePalabra = '"+nombrePalabra+"'", Palabra.class).getSingleResult();
+        List<Palabra> respuesta =  em.createNativeQuery("select * from PALABRA p where p.NombrePalabra LIKE '"+nombrePalabra+"'", Palabra.class).getResultList();
         em.close();
         emf.close();
         return respuesta;

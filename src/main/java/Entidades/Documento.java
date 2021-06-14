@@ -55,7 +55,12 @@ public class Documento implements Serializable{
     }
     
     public boolean equals( Documento doc){
-        return(doc.nombre.equals(this.nombre) && doc.urlDoc.equals(this.urlDoc));
+        try{
+        return(doc.nombre.equals(this.nombre));
+        }
+        catch(NullPointerException e){
+            return false;
+        }
     }
     
     public int getIdDocDeBase(){

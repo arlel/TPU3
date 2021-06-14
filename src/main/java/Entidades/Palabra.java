@@ -3,15 +3,16 @@ package Entidades;
 import javax.persistence.*;
 import CapaAccesoADB.PalabraController;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 
 @Entity @Table(name="PALABRA")
 public class Palabra implements Serializable{
     
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int idPalabra;
-    @Column(name= "documentos") private int n;
+    @Column(name= "Documentos") private int n;
     @Column(name= "NombrePalabra") private String nombre;
-    @Column private int maxTF;    
+    @Column(name= "MaxTF")private int maxTF;    
     @Transient private PalabraController pc = new PalabraController();
     
     public void setIdPalabra(int idPalabra) {
@@ -102,18 +103,26 @@ public class Palabra implements Serializable{
     public void persistir(){        
         this.maxTF= lista[1];
         this.n= lista[0];
-        Palabra p = pc.getPalabraByNombre(this.nombre);
-        if(p !=null){
-            this.setIdPalabra(p.getIdPalabra());
-            pc.modificar(this);
-            return;
-        }
+        List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
+        if(pList.size() !=0){
+        for(Palabra p: pList){
+            if(p.nombre.equals(this.nombre)){
+                this.setIdPalabra(p.getIdPalabra());
+                pc.modificar(this);
+                return;
+        }}}
         pc.agregar(this); 
         
     }
     
     public int getIdPalabraDeBase(){
-        Palabra p =pc.getPalabraByNombre(this.nombre);
-        return p.getIdPalabra();
+        List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
+        if(pList.size() !=0){
+            for(Palabra p: pList){
+            if(p.nombre.equals(this.nombre)){
+                return p.getIdPalabra();
+        }}
+        }
+        return -1;
     }
 }

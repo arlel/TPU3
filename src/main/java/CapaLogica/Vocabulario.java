@@ -134,7 +134,10 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                                 break;
                               }
                         }
-                    if(salir)continue;
+                    if(salir){
+                        salir = false;
+                        continue;
+                    }
                     if(!tabla.containsKey(str)){
                         Palabra p = new Palabra();
                         p.setNombre(str);
