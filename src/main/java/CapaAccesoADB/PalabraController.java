@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*
+
 package CapaAccesoADB;
 
 import Entidades.Palabra;
@@ -12,50 +12,77 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 /**
  *
  * @author lenta
  */
-/*
+
 public class PalabraController {
-    @Inject
-    private EntityManager em;
+   
     public List<Palabra> consultarTodos(){         
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();        
         List<Palabra> lista = em.createQuery("select * from PALABRA", Palabra.class).getResultList();
+        em.close();
+        emf.close();
         return lista;
     }
     
     public Palabra consultarPorID(int idPalabra){
-        return em.find(Palabra.class, idPalabra);        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();       
+        Palabra respuesta = em.find(Palabra.class, idPalabra); 
+        em.close();
+        emf.close();
+        return respuesta;
     }
     
     public Palabra getPalabraByNombre(String nombrePalabra){
-        return (Palabra) em.createQuery("select * from PALABRA p where p.NombrePalabra LIKE '"+nombrePalabra+"'", Palabra.class);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();       
+        Palabra respuesta = (Palabra) em.createQuery("select * from PALABRA p where p.NombrePalabra LIKE '"+nombrePalabra+"'", Palabra.class);
+        em.close();
+        emf.close();
+        return respuesta;
     }
     
     public void agregar(Palabra p){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.persist(p);
         em.flush();
-        t.commit();               
+        t.commit(); 
+        em.close();
+        emf.close();
+                     
     }
     
     public void modificar(Palabra p){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.merge(p);
         em.flush();
         t.commit(); 
+        em.close();
+        emf.close();
     }
     
     public void eliminar(Palabra p){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.remove(p);
         em.flush();
-        t.commit(); 
+        t.commit();  
+        em.close();
+        emf.close();
     }
 }
-   */
+   

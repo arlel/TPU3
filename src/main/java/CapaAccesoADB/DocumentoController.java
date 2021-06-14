@@ -23,46 +23,66 @@ import javax.persistence.PersistenceUnit;
 public class DocumentoController {
 
     public List<Documento> consultarTodos(){ 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibrosPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
         List<Documento> lista = em.createQuery("select * from DOCUMENTO", Documento.class).getResultList();
         em.close();
         emf.close();     
         return lista;
     }
- /*   
+ 
     public List<Documento> consultarPorNombre(String NombreDoc){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();
         List<Documento> lista = em.createQuery("select * from DOCUMENTO where NombreDoc Like '"+NombreDoc+"'", Documento.class).getResultList();
+        em.close();
+        emf.close();
         return lista;        
     }
     
     public Documento consultarPorID(int id){
-        return em.find(Documento.class, id);        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();
+        Documento respuesta = em.find(Documento.class, id);
+        em.close();
+        emf.close();
+        return respuesta;        
     }
     
     public void agregar(Documento doc){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.persist(doc);
         em.flush();
-        t.commit();               
+        t.commit();         
+        em.close();
+        emf.close();
     }
     
     public void modificar(Documento doc){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.merge(doc);
         em.flush();
         t.commit(); 
+        em.close();
+        emf.close();
     }
     
     public void eliminar(Documento doc){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.remove(doc);
         em.flush();
         t.commit(); 
+        em.close();
+        emf.close();
     }
     
-    */
 }
