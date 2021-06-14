@@ -10,10 +10,10 @@ import javax.persistence.*;
 @Entity @Table(name="DOCUMENTO")
 public class Documento implements Serializable{
     
-    @Id @GeneratedValue(strategy=GenerationType.AUTO) private int idDoc;
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int idDoc;
     @Column private String urlDoc;
-    @Column private String nombre;
-    private DocumentoController dc = new DocumentoController();
+    @Column(name= "NombreDoc") private String nombre;
+    @Transient private DocumentoController dc = new DocumentoController();
     public Documento(){}
     
     public Documento(String ruta, String nombre) {

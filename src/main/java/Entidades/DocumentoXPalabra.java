@@ -23,7 +23,7 @@ public class DocumentoXPalabra implements Serializable {
     
     @Column private int tf;
     
-    private DocumentosXPalabraController dpc = new DocumentosXPalabraController();
+    @Transient private DocumentosXPalabraController dpc = new DocumentosXPalabraController();
     
     public DocumentoXPalabra(){}
     public DocumentoXPalabra(String doc, String tief, int idPalabrita) {

@@ -15,6 +15,7 @@ import Entidades.*;
 import Entidades.Documento;
 import Entidades.Palabra;
 import Entidades.Posteo;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -160,10 +161,10 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
          while(it2.hasNext()){
              ((Documento)it2.next()).persistir();
          }
-         Set entrySet = tabla.entrySet();
-         Iterator it = entrySet.iterator();
+         Collection col = tabla.values();
+         Iterator it = col.iterator();
          while(it.hasNext()){
-            Palabra p = (Palabra)it.next();
+            Palabra p =(Palabra)it.next();
             p.persistir();
             ArrayList[] posteosTotales = posteo.getLista();
             ArrayList posteosPalabra = posteosTotales[p.getPosteo()];

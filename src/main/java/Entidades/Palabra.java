@@ -8,11 +8,11 @@ import javax.inject.Inject;
 @Entity @Table(name="PALABRA")
 public class Palabra implements Serializable{
     
-    @Id @GeneratedValue(strategy=GenerationType.AUTO) private int idPalabra;
-    @Column private int n;
-    @Column private String nombre;
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int idPalabra;
+    @Column(name= "documentos") private int n;
+    @Column(name= "NombrePalabra") private String nombre;
     @Column private int maxTF;    
-    private PalabraController pc = new PalabraController();
+    @Transient private PalabraController pc = new PalabraController();
     
     public void setIdPalabra(int idPalabra) {
         this.idPalabra = idPalabra;
