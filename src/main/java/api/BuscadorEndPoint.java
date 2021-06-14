@@ -14,9 +14,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.core.Response;
 import javax.inject.Inject;
 import java.util.List;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-//import CapaLogica.Consulta;
-//import CapaLogica.Respuesta;
+import CapaLogica.Consulta;
+import CapaLogica.Respuesta;
 
 
 
@@ -48,7 +49,7 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
 
     
     //@Inject private Consulta consultar;
-   // @Inject private Respuesta respuesta;
+   @Inject private Respuesta respuesta;
     
     
     @GET
@@ -56,7 +57,8 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
     public Response index() { 
         return Response.ok("works").build();
     }
-    /*
+    
+    
     @GET
     @Path("/busqueda/{q}")
     @Produces("application/json")
@@ -85,7 +87,7 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
                   }
     
     
-    /*
+    
     @GET
     @Path("/documento")
     @Produces("application/json")
@@ -94,19 +96,27 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
         //doc deberia mostrar el contenidod el doc
     return Response.ok(doc).build();
     }
-    */
+    
+    //cargar todos los documentos que estan en un archivo especificado
+    @GET
+    @Path("/cargar_documentos")
+    @Produces("application/json")
+    public Response cargar(){
+        respuesta.cargarDocumentos();
+    return Response.ok().build();
+    }
+    
+    /*@GET
+    @Path("/agregar_documento")
+    @Produces("application/json")
+    public Response cargar(String url){
+        String doc = respuesta.buscarDoc(url);
+        //doc deberia mostrar el contenidod el doc
+    return Response.ok(doc).build();
+    }
+   */
 
             
   
-    
-//GET tpugas/api/buscar?q="[textoABuscar]"  
-//retorna un json con las urls de los documentos
-//importante: La api antes de llamar al buscador, debe quitar las stopwords del texto a buscar
-
-//GET tpugas/api/documento?dir="[direccionDelDoc(nombre)]"
-//retorna un json con el documento
-
-//retorne un json con la direccion al drive
-///d*asdasd///nombreDoc
     
 }
