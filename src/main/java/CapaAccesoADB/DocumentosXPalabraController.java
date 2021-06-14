@@ -47,7 +47,7 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
     public List<DocumentoXPalabra> getDocumentosXPalabraByIDPalabra(int idPalabra){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
-        List<DocumentoXPalabra> lista = em.createNativeQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDDoc = "+idPalabra, DocumentoXPalabra.class).getResultList();
+        List<DocumentoXPalabra> lista = em.createNativeQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDPalabra = "+idPalabra, DocumentoXPalabra.class).getResultList();
         em.close();
         emf.close();
         return lista; 

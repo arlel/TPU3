@@ -68,5 +68,17 @@ public class DocumentoXPalabra implements Serializable {
         }
         else dpc.agregar(this);
     }
-    
+   
+     public List<DocumentoXPalabra> getDXPDeBase(int idPalabra){
+            List<DocumentoXPalabra> dxp = dpc.getDocumentosXPalabraByIDPalabra(idPalabra);
+            return dxp;
+    }
+     
+     public String[] convertirAString(String doc){
+        String[] temp = new String[2];
+        temp[0] = doc;
+        temp[1] = String.valueOf(tf);
+        return temp;
+    }
+     
 }

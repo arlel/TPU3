@@ -4,6 +4,7 @@ import javax.persistence.*;
 import CapaAccesoADB.PalabraController;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.inject.Inject;
 
 @Entity @Table(name="PALABRA")
@@ -124,5 +125,20 @@ public class Palabra implements Serializable{
         }}
         }
         return -1;
+    }
+    
+    public void getPalabraDeBase(String nombre){
+       List<Palabra> pList = pc.getPalabraByNombre(nombre);
+        if(!(pList.isEmpty())){
+            for(Palabra p: pList){
+            if(Objects.equals(p.nombre, nombre)){
+                this.nombre = p.nombre;
+                this.maxTF = p.maxTF;
+                this.n = p.n;
+                this.idPalabra = p.idPalabra;
+                return;
+        }}
+        }
+        this.idPalabra = -1;
     }
 }

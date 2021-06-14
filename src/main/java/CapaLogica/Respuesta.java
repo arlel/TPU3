@@ -4,7 +4,9 @@ import Entidades.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
+
 
 /**
  *
@@ -47,13 +49,21 @@ public class Respuesta {
 
         while(conteoQ < qidf.length){
             double idf = Double.parseDouble(qidf[conteoQ][1]);
-            if(voc.tabla.containsKey(qidf[conteoQ][0])){
-                Palabra p = voc.tabla.get(qidf[conteoQ][0]);
-
-                ArrayList listaPosteo = voc.posteo.getLista()[p.getLista()[2]];
-
+            //busca las palabras en base
+            Palabra p = new Palabra();
+            p.getPalabraDeBase(qidf[conteoQ][0]);
+            if(p.getIdPalabra() != -1){
+                //busca documentosXpalabra
+                DocumentoXPalabra d = new DocumentoXPalabra();
+                List<DocumentoXPalabra> listaPosteo = d.getDXPDeBase(p.getIdPalabra());
+                if(listaPosteo.isEmpty()){
+                    continue;
+                            }
                 for(int j=0;j<listaPosteo.size();j++){
-                    String[] doc = (String[]) listaPosteo.get(j);
+                    DocumentoXPalabra dxp =  listaPosteo.get(j);
+                    Documento d2 = new Documento();
+                    d2 = d2.getDocumentoDeBase(dxp.getIdDoc());
+                    String[] doc = dxp.convertirAString(d2.getURL());
                     Double peso = calcularPeso(idf, Integer.parseInt(doc[1]));
                     ld = sumarEnLD(ld, doc, peso);
 
