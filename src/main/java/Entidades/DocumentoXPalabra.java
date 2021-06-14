@@ -5,13 +5,15 @@
  */
 package Entidades;
 
+import CapaAccesoADB.DocumentosXPalabraController;
+import javax.inject.Inject;
 import javax.persistence.*;
 
 /**
  *
  * @author Gonza
  */
-@Entity
+@Entity @Table(name="DOCUMENTOSXPALABRA")
 public class DocumentoXPalabra {
     @Id
     private int idDoc;
@@ -19,6 +21,14 @@ public class DocumentoXPalabra {
     private int idPalabra;
     
     @Column private int tf;
+    
+    @Inject DocumentosXPalabraController dpc;    
+
+    public DocumentoXPalabra(String doc, String tief, int idPalabrita) {
+        this.idDoc = Integer.parseInt(doc);
+        this.tf = Integer.parseInt(tief);
+        this.idPalabra = idPalabrita;
+    }
 
     public int getIdDoc() {
         return idDoc;
@@ -54,5 +64,8 @@ public class DocumentoXPalabra {
         this.tf = tf;
     }
     
+    public void persistir(){
+        dpc.modificar(this);
+    }
     
 }

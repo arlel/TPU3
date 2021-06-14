@@ -8,6 +8,7 @@ package CapaAccesoADB;
 
 import Entidades.Palabra;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,7 +19,7 @@ import javax.persistence.Persistence;
  *
  * @author lenta
  */
-
+@ApplicationScoped
 public class PalabraController {
    
     public List<Palabra> consultarTodos(){         
@@ -61,7 +62,7 @@ public class PalabraController {
                      
     }
     
-    public void modificar(Palabra p){
+    public void modificarOAgregar(Palabra p){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();

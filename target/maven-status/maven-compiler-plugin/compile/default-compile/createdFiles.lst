@@ -5,10 +5,10 @@ Entidades\Documento.class
 Entidades\Posteo.class
 CapaLogica\Consulta.class
 Entidades\DocumentoXPalabra.class
+CapaLogica\Vocabulario.class
 dlc\tpu3\JAXRSConfiguration.class
 CapaAccesoADB\DocumentosXPalabraController.class
 dlc\tpu3\resources\JavaEE8Resource.class
-Entidades\Vocabulario.class
 api\BuscadorEndPoint.class
 CapaAccesoADB\DocumentoController.class
 CapaAccesoADB\PalabraController.class

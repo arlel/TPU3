@@ -1,18 +1,23 @@
 package CapaLogica;
 
-import Entidades.Vocabulario;
 import Entidades.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.enterprise.context.ApplicationScoped;
 
+/**
+ *
+ * @author Gon
+ */
 public class Respuesta {
     public Vocabulario voc;
     public String[][] ld;
     public int cant;
     public String[][] qidf;
 
-    public Respuesta(Vocabulario voc, int r) {
-        this.voc = voc;
+    public Respuesta(int r) {
+        this.voc = new Vocabulario();
         this.cant = r;
         this.ld = new String[r][2];
         for (int i = 0; i < ld.length; i++) {
@@ -120,5 +125,16 @@ public class Respuesta {
         ldCopia[pos][1] = String.valueOf(peso);
         System.arraycopy(ld, pos, ldCopia, pos +1, ld.length - pos);
         return Arrays.copyOfRange(ldCopia, 0, ld.length);
+    }
+    
+    public void cargarDocumentos() throws IOException{
+        try {
+            voc.setRutas();
+            voc.setVocabulario();
+            voc.persistir();    
+            
+        }
+        catch(IOException e){}
+        
     }
 }

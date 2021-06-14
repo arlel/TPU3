@@ -1,14 +1,18 @@
 package Entidades;
 
 import javax.persistence.*;
+import CapaAccesoADB.PalabraController;
+import javax.inject.Inject;
 
-@Entity
+@Entity @Table(name="PALABRA")
 public class Palabra {
     
-    @Id private int idPalabra;
+    @Id @GeneratedValue(strategy=GenerationType.AUTO) private int idPalabra;
     @Column private int n;
     @Column private String nombre;
-
+    @Column private int maxTF;
+    
+    @Inject PalabraController pc;
     public void setIdPalabra(int idPalabra) {
         this.idPalabra = idPalabra;
     }
@@ -70,6 +74,7 @@ public class Palabra {
                 lista[1] = tf;
             }
             lista[0]++;
+            
             tf = 1;
             doc = count;
             posteo.agregarDoc(documento, this.getPosteo(), tf);
@@ -91,5 +96,14 @@ public class Palabra {
 
     public void setPosteo(int pos){
         lista[2] = pos;
+    }
+    
+    public void persistir(){        
+        maxTF= lista[1];
+        n= lista[0];
+        //El merge del jpa, si ya esta el objeto lo actualiza dandole valores nuevos
+        //Si no esta el objeto, lo crea
+        pc.modificarOAgregar(this); 
+        
     }
 }

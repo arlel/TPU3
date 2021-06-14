@@ -8,6 +8,7 @@ package CapaAccesoADB;
 
 import Entidades.DocumentoXPalabra;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,7 +19,7 @@ import javax.persistence.Persistence;
  *
  * @author lenta
  */
-
+@ApplicationScoped
 public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPalabra
     
     public List<DocumentoXPalabra> consultarTodos(){ 

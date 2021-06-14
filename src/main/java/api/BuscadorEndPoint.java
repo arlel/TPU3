@@ -18,6 +18,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import CapaLogica.Consulta;
 import CapaLogica.Respuesta;
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 
 
 
@@ -49,7 +53,7 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
 
     
     //@Inject private Consulta consultar;
-   @Inject private Respuesta respuesta;
+    private Respuesta respuesta = new Respuesta(10);
     
     
     @GET
@@ -85,9 +89,10 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
           //url deberia devolver un vector de objetos de tipo documento
           return Response.ok(urls).build();
                   }
+    private ExecutorService executorService = java.util.concurrent.Executors.newCachedThreadPool();
     
     
-    
+   /* 
     @GET
     @Path("/documento")
     @Produces("application/json")
@@ -96,14 +101,17 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
         //doc deberia mostrar el contenidod el doc
     return Response.ok(doc).build();
     }
-    
+    */
     //cargar todos los documentos que estan en un archivo especificado
     @GET
     @Path("/cargar_documentos")
     @Produces("application/json")
-    public Response cargar(){
-        respuesta.cargarDocumentos();
-    return Response.ok().build();
+    public Response cargar() {
+        try {
+            respuesta.cargarDocumentos();
+            return Response.accepted().build();}
+            
+        catch (IOException e){ return Response.noContent().build();}        
     }
     
     /*@GET
@@ -115,6 +123,8 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
     return Response.ok(doc).build();
     }
    */
+
+    
 
             
   
