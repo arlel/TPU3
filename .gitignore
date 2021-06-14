@@ -17,3 +17,4 @@ target/TPU3-1/WEB-INF/classes/Entidades/Documento.class
 target/TPU3-1/WEB-INF/classes/Entidades/DXPKey.class
 target/TPU3-1/WEB-INF/classes/Entidades/Posteo.class
 target/TPU3-1/WEB-INF/classes/Entidades/Palabra.class
+src/main/resources/META-INF/persistence.xml
