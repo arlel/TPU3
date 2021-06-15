@@ -22,37 +22,41 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class PalabraController {
    
-    public PalabraController(){}
+    EntityManagerFactory emf;
+    
+    public PalabraController(){ 
+        emf = Persistence.createEntityManagerFactory("TPUGASv2");
+    }
     
     public List<Palabra> consultarTodos(){         
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+       
         EntityManager em = emf.createEntityManager();        
         List<Palabra> lista = em.createQuery("select * from PALABRA", Palabra.class).getResultList();
         em.close();
-        emf.close();
+        
         return lista;
     }
     
     public Palabra consultarPorID(int idPalabra){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();       
         Palabra respuesta = em.find(Palabra.class, idPalabra); 
         em.close();
-        emf.close();
+        
         return respuesta;
     }
     
     public List<Palabra> getPalabraByNombre(String nombrePalabra){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();       
         List<Palabra> respuesta =  em.createNativeQuery("select * from PALABRA p where p.NombrePalabra LIKE '"+nombrePalabra+"'", Palabra.class).getResultList();
         em.close();
-        emf.close();
+        
         return respuesta;
     }
     
     public void agregar(Palabra p){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -60,12 +64,12 @@ public class PalabraController {
         em.flush();
         t.commit(); 
         em.close();
-        emf.close();
+        
                      
     }
     
     public void modificar(Palabra p){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -73,11 +77,11 @@ public class PalabraController {
         em.flush();
         t.commit(); 
         em.close();
-        emf.close();
+        
     }
     
     public void eliminar(Palabra p){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -85,7 +89,7 @@ public class PalabraController {
         em.flush();
         t.commit();  
         em.close();
-        emf.close();
+        
     }
 }
    

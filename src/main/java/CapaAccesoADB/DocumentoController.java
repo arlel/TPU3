@@ -22,38 +22,43 @@ import javax.persistence.PersistenceUnit;
 @ApplicationScoped
 public class DocumentoController {
     
-    public DocumentoController(){}
+    EntityManagerFactory emf;
+    
+    
+    
+    public DocumentoController(){
+       emf = Persistence.createEntityManagerFactory("TPUGASv2");}
 
     public List<Documento> consultarTodos(){ 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();
         List<Documento> lista = em.createQuery("select * from DOCUMENTO", Documento.class).getResultList();
         em.close();
-        emf.close();     
+             
         return lista;
     }
  
     public List<Documento> consultarPorNombre(String NombreDoc){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();
         List<Documento> lista = em.createNativeQuery("select * from DOCUMENTO d where d.NombreDoc Like '"+NombreDoc+"'", Documento.class).getResultList();
         em.close();
-        emf.close();
+        
         return lista;        
     }
 
     
     public Documento consultarPorID(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();
         Documento respuesta = em.find(Documento.class, id);
         em.close();
-        emf.close();
+        
         return respuesta;        
     }
     
     public void agregar(Documento doc){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -61,11 +66,11 @@ public class DocumentoController {
         em.flush();
         t.commit();         
         em.close();
-        emf.close();
+        
     }
     
     public void modificar(Documento doc){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -73,11 +78,11 @@ public class DocumentoController {
         em.flush();
         t.commit(); 
         em.close();
-        emf.close();
+        
     }
     
     public void eliminar(Documento doc){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+        
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -85,7 +90,7 @@ public class DocumentoController {
         em.flush();
         t.commit(); 
         em.close();
-        emf.close();
+        
     }
     
 }

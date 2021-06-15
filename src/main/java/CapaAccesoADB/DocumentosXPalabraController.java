@@ -22,50 +22,45 @@ import javax.persistence.Persistence;
  */
 @ApplicationScoped
 public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPalabra
+    EntityManagerFactory emf;
     
     
-    public DocumentosXPalabraController(){}
+    public DocumentosXPalabraController(){
+     EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+    }
     
     public List<DocumentoXPalabra> consultarTodos(){ 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
+       
         EntityManager em = emf.createEntityManager();
         List<DocumentoXPalabra> lista = em.createQuery("select * from DOCUMENTOSXPALABRA", DocumentoXPalabra.class).getResultList();
         em.close();
-        emf.close();
         return lista;
     }
     
     public List<DocumentoXPalabra> getAllByWord(String word){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
-        EntityManager em = emf.createEntityManager();
+       EntityManager em = emf.createEntityManager();
         List<DocumentoXPalabra> lista = em.createQuery("SELECT * from PALABRA p JOIN DOCUMENTOSXPALABRA p1 ON p.IDPalabra=p1.IDPalabra where p.NombrePalabra LIKE '"+word+"'", DocumentoXPalabra.class).getResultList();
         em.close();
-        emf.close();
         return lista;
     }
     
     public List<DocumentoXPalabra> getDocumentosXPalabraByIDPalabra(int idPalabra){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
-        List<DocumentoXPalabra> lista = em.createNativeQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDPalabra = "+idPalabra, DocumentoXPalabra.class).getResultList();
+        List<DocumentoXPalabra> lista = em.createNativeQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDDoc = "+idPalabra, DocumentoXPalabra.class).getResultList();
         em.close();
-        emf.close();
         return lista; 
     }
     
     public DocumentoXPalabra getById(int idPalabra, int idDocumento){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
         String IdP = Integer.toString(idPalabra);
         String IdD = Integer.toString(idDocumento);
         DocumentoXPalabra poust = (DocumentoXPalabra) em.createNativeQuery("Select * from DOCUMENTOSXPALABRA d where d.IDDoc ="+IdD+" AND d.IDPalabra ="+IdP,DocumentoXPalabra.class).getSingleResult();
         em.close();
-        emf.close();
         return poust; 
     }
     
     public void agregar(DocumentoXPalabra docXPalabra){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -74,23 +69,19 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
         em.flush();
         t.commit();  
         em.close();
-        emf.close();
     }
     
     public void modificar(DocumentoXPalabra docXPalabra){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.merge(docXPalabra);
         em.flush();
         t.commit(); 
-        em.close();
-        emf.close();
+        em.close();        
     }
     
     public void eliminar(DocumentoXPalabra docXPalabra){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TPUGASv2");
         EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
@@ -98,6 +89,5 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
         em.flush();
         t.commit(); 
         em.close();
-        emf.close();
     }
 }
