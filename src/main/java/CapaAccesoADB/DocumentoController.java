@@ -22,16 +22,14 @@ import javax.persistence.PersistenceUnit;
 @ApplicationScoped
 public class DocumentoController {
     
-    EntityManagerFactory emf;
-    
     
     
     public DocumentoController(){
-       emf = Persistence.createEntityManagerFactory("TPUGASv2");}
+      }
 
     public List<Documento> consultarTodos(){ 
         
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = ConexionADB.emf.createEntityManager();
         List<Documento> lista = em.createQuery("select * from DOCUMENTO", Documento.class).getResultList();
         em.close();
              
@@ -40,7 +38,7 @@ public class DocumentoController {
  
     public List<Documento> consultarPorNombre(String NombreDoc){
         
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = ConexionADB.emf.createEntityManager();
         List<Documento> lista = em.createNativeQuery("select * from DOCUMENTO d where d.NombreDoc Like '"+NombreDoc+"'", Documento.class).getResultList();
         em.close();
         
@@ -50,7 +48,7 @@ public class DocumentoController {
     
     public Documento consultarPorID(int id){
         
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = ConexionADB.emf.createEntityManager();
         Documento respuesta = em.find(Documento.class, id);
         em.close();
         
@@ -59,7 +57,7 @@ public class DocumentoController {
     
     public void agregar(Documento doc){
         
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = ConexionADB.emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.persist(doc);
@@ -71,7 +69,7 @@ public class DocumentoController {
     
     public void modificar(Documento doc){
         
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = ConexionADB.emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.merge(doc);
@@ -83,7 +81,7 @@ public class DocumentoController {
     
     public void eliminar(Documento doc){
         
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = ConexionADB.emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.remove(doc);

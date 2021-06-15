@@ -22,15 +22,12 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class PalabraController {
    
-    EntityManagerFactory emf;
-    
     public PalabraController(){ 
-        emf = Persistence.createEntityManagerFactory("TPUGASv2");
     }
     
     public List<Palabra> consultarTodos(){         
        
-        EntityManager em = emf.createEntityManager();        
+        EntityManager em = ConexionADB.emf.createEntityManager();        
         List<Palabra> lista = em.createQuery("select * from PALABRA", Palabra.class).getResultList();
         em.close();
         
@@ -39,7 +36,7 @@ public class PalabraController {
     
     public Palabra consultarPorID(int idPalabra){
         
-        EntityManager em = emf.createEntityManager();       
+        EntityManager em = ConexionADB.emf.createEntityManager();       
         Palabra respuesta = em.find(Palabra.class, idPalabra); 
         em.close();
         
@@ -48,7 +45,7 @@ public class PalabraController {
     
     public List<Palabra> getPalabraByNombre(String nombrePalabra){
         
-        EntityManager em = emf.createEntityManager();       
+        EntityManager em = ConexionADB.emf.createEntityManager();       
         List<Palabra> respuesta =  em.createNativeQuery("select * from PALABRA p where p.NombrePalabra LIKE '"+nombrePalabra+"'", Palabra.class).getResultList();
         em.close();
         
@@ -57,7 +54,7 @@ public class PalabraController {
     
     public void agregar(Palabra p){
         
-        EntityManager em = emf.createEntityManager();       
+        EntityManager em = ConexionADB.emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.persist(p);
@@ -70,7 +67,7 @@ public class PalabraController {
     
     public void modificar(Palabra p){
         
-        EntityManager em = emf.createEntityManager();       
+        EntityManager em = ConexionADB.emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.merge(p);
@@ -82,7 +79,7 @@ public class PalabraController {
     
     public void eliminar(Palabra p){
         
-        EntityManager em = emf.createEntityManager();       
+        EntityManager em = ConexionADB.emf.createEntityManager();       
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.remove(p);
