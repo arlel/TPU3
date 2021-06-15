@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Vocabulario { //lista de todas las palabras que se identificaron
@@ -81,7 +82,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 
     public void setRutas() throws IOException {
         //Esto se puede hacer Consultando a Google drive O en una carpeta LOCAL del proyecto.
-        Files.walk(Paths.get("C:\\Users\\sebas\\Desktop\\facultad\\DLC\\Tp1\\GIT\\TPU3\\src\\main\\webapp\\recursos")).forEach(ruta-> {
+        Files.walk(Paths.get("F:\\AccesosWindows\\Documentos\\NetBeansProjects\\TPU3\\src\\main\\webapp\\recursos")).forEach(ruta-> {
             if (Files.isRegularFile(ruta)) {
                 if(ruta==null) return;
                 this.rutas.add(ruta.toString());
@@ -122,13 +123,15 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                     str = str.replace("\"", "");
                     str = str.replace("*", "");
                     str = str.replace("'s", "");
+                    str = str.replace("'t", "");
                     str = str.replace("«","");
                     str = str.replace("/","");
+                    str = str.replace("'","");
                     str = str.toLowerCase();
                     //Si str es una stopword, verifico la proxima palabra
                     for(int j = 0; j < stopwords.length; j++)
                         {
-                           if(stopwords[j].equals(str))
+                           if(Objects.equals(stopwords[j],str))
                               {
                                 salir = true;
                                 break;

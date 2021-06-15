@@ -9,9 +9,9 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=TPUGASv2"/>
-      <property name="javax.persistence.jdbc.user" value="elAdmin"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      <property name="javax.persistence.jdbc.password" value="pepecito"/>
+      <property name="javax.persistence.jdbc.password" value="r00t"/>
       <property name="hibernate.jdbc.batch_size" value="500"/>
       <property name="hibernate.order_inserts" value="true"/>
       <property name="hibernate.order_updates" value="true"/>

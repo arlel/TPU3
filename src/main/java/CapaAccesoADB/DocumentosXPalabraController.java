@@ -45,7 +45,7 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
     
     public List<DocumentoXPalabra> getDocumentosXPalabraByIDPalabra(int idPalabra){
         EntityManager em = ConexionADB.emf.createEntityManager();
-        List<DocumentoXPalabra> lista = em.createNativeQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDDoc = "+idPalabra, DocumentoXPalabra.class).getResultList();
+        List<DocumentoXPalabra> lista = em.createNativeQuery("SELECT * from DOCUMENTOSXPALABRA d where d.IDPalabra= "+idPalabra, DocumentoXPalabra.class).getResultList();
         em.close();
         return lista; 
     }

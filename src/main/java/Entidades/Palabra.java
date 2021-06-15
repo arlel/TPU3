@@ -107,7 +107,7 @@ public class Palabra implements Serializable{
         List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
         if(pList.size() !=0){
         for(Palabra p: pList){
-            if(p.nombre.equals(this.nombre)){
+            if(Objects.equals(p.nombre,this.nombre)){
                 this.setIdPalabra(p.getIdPalabra());
                 pc.modificar(this);
                 return;
@@ -120,7 +120,7 @@ public class Palabra implements Serializable{
         List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
         if(pList.size() !=0){
             for(Palabra p: pList){
-            if(p.nombre.equals(this.nombre)){
+            if(Objects.equals(p.nombre,this.nombre)){
                 return p.getIdPalabra();
         }}
         }

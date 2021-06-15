@@ -61,12 +61,20 @@ public class DocumentoXPalabra implements Serializable {
     }
     
     public void persistir(){
-        
+        if(this.idPalabra == -1) return; //pdc
         List<DocumentoXPalabra> dxp = dpc.getDocumentosXPalabraByIDPalabra(this.idPalabra);
-        if(!(dxp.isEmpty())){
-            dpc.modificar(this);
+        if(dxp.isEmpty()){
+            dpc.agregar(this);
         }
-        else dpc.agregar(this);
+        else{
+            for(DocumentoXPalabra d : dxp){
+                if(d.getIdDoc() == this.getIdDoc()){                    
+                    dpc.modificar(this);  
+                    return;
+                }
+            }
+            dpc.agregar(this);
+            }
     }
    
      public List<DocumentoXPalabra> getDXPDeBase(int idPalabra){
