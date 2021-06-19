@@ -73,12 +73,12 @@ public class Palabra implements Serializable{
 
 
         if(count > doc){
-            if(tf > lista[1]){
-                lista[1] = tf;
-            }
             lista[0]++;
             
             tf = 1;
+            if(doc == -1){
+                lista[1] = 1; 
+            }
             doc = count;
             posteo.agregarDoc(documento, this.getPosteo(), tf);
             conteoDoc++;
@@ -90,6 +90,9 @@ public class Palabra implements Serializable{
             String[] tfold = (String[]) posteo.getLista()[this.getPosteo()].get(conteoDoc-1);
             tfold[1] = String.valueOf(tf);
             posteo.getLista()[this.getPosteo()].set(conteoDoc-1,tfold);
+            if(tf > lista[1]){
+                lista[1] = tf;
+            }
         }
     }
 

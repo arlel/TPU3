@@ -17,6 +17,7 @@ public class Respuesta {
     public String[][] ld;
     public int cant;
     public String[][] qidf;
+    int docs = 593;
 
     public Respuesta(int r) {
         this.voc = new Vocabulario();
@@ -39,7 +40,7 @@ public class Respuesta {
         int i = 0;
         int conteoQ = 0;
         for (String word:q) {
-            double idf = calcularIDF(word);
+            double idf = calcularIDF(word, docs);
             String[] q1 = {word, String.valueOf(idf)};
             qidf[i] = q1;
             i++;
@@ -79,13 +80,12 @@ public class Respuesta {
         return tf * idf;
     }
 
-    public double calcularIDF(String word){
+    public double calcularIDF(String word, int cantDocs){
 
-        if(this.voc.tabla.containsKey(word)) {
-            Palabra p = voc.tabla.get(word);
-            return Math.log(((float) (voc.rutas.size())/ (p.getLista()[0])  ));
-        }
-
+        Palabra p = new Palabra();
+        p.getPalabraDeBase(word);
+        if(p.getN() != 0){
+        return Math.log((float) (cantDocs/ (p.getN()) ));}
         return 0;
     }
 

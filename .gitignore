@@ -40,3 +40,6 @@ target/TPU3-1.war
 target/TPU3-1/WEB-INF/classes/CapaAccesoADB/DocumentosXPalabraController.class
 target/TPU3-1/WEB-INF/classes/CapaLogica/Vocabulario.class
 target/TPU3-1/WEB-INF/classes/META-INF/persistence.xml
+src/main/resources/META-INF/persistence.xml
+src/main/resources/META-INF/persistence.xml
+src/main/resources/META-INF/persistence.xml
