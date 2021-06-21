@@ -24,7 +24,7 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPalabra
    
-    static final int TAMANHOCARGA = 6000;
+    static final int TAMANHOCARGA = 900;
     
     public DocumentosXPalabraController(){
     }
