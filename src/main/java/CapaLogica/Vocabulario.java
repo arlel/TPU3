@@ -35,6 +35,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
     public ArrayList<String> rutas;//Documentos
     public Posteo posteo; //
     public LinkedHashSet<Documento> docs;
+    private HashSet<String> stops;    
     private String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", 
 "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", 
 "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", 
@@ -65,11 +66,15 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
     
     //El vocabulario enlaza el backend con la base, para poder realizar la busqueda de la palabra.
     public Vocabulario(){        
+        this.stops = new HashSet<>();
+        for(String i: stopwords)    this.stops.add(i);
         this.rutas = new ArrayList<>();
         this.tabla = new LinkedHashMap<>();
         this.docs = new LinkedHashSet<>();
+        
     }
     public Vocabulario(Consulta q) {
+        this.stops = new HashSet<>();
         this.q = q;
         this.rutas = new ArrayList<>();
         this.tabla = new LinkedHashMap<>();
@@ -80,6 +85,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 
 
     public Vocabulario(String str) {
+        this.stops = new HashSet<>();
         this.q = new Consulta(str);
         this.rutas = new ArrayList<>();
         this.tabla = new LinkedHashMap<>();
@@ -100,7 +106,6 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 
 
     public void setVocabulario(){
-        boolean salir = false;
         int count = 0;
         this.posteo = new Posteo(1000000);
         int posPosteo = 0;
@@ -132,25 +137,26 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                     str = str.replace("'s", "");
                     str = str.replace("'t", "");
                     str = str.replace("«","");
+                    str = str.replace("»","");
                     str = str.replace("/","");
                     str = str.replace("'","");                    
-                    str = str.replace("-","");               
+                    str = str.replace("-","");                
+                    str = str.replace("_","");                   
                     str = str.replace(" ","");
+                    str = str.replace("[","");
+                    str = str.replace("]","");                    
+                    str = str.replace("{","");               
+                    str = str.replace("}","");              
+                    str = str.replace("'","");            
+                    str = str.replace("+","");            
+                    str = str.replace("^","");            
+                    str = str.replace("$","");            
+                    str = str.replace("#","");
                     str = str.toLowerCase();
                     //Si str es una stopword, verifico la proxima palabra
-                    if(str.length()<=1) continue;
-                    for(int j = 0; j < stopwords.length; j++)
-                        {
-                           if(Objects.equals(stopwords[j],str))
-                              {
-                                salir = true;
-                                break;
-                              }
-                        }
-                    if(salir){
-                        salir = false;
-                        continue;
-                    }
+                    if(str.length()<=1 || str.length()>=42) continue;
+                    if(stops.contains(str))      continue;  
+                    
                     if(!tabla.containsKey(str)){
                         Palabra p = new Palabra();
                         p.setNombre(str);
@@ -220,6 +226,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
         for(Palabra pal : resultadoConsulta){ //guardo todas las palabras de la base en memoria para acceder rapidamente a su id
             palabras.put(pal.getNombre(), String.valueOf(pal.getIdPalabra()));
         }
+        resultadoConsulta.clear();
         ArrayList[] posteosTotales = posteo.getLista();
         Documento doc = new Documento();
         while(it.hasNext()){
@@ -233,8 +240,12 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                if(pa != null){
                DocumentoXPalabra DXP = new DocumentoXPalabra(doc.getIdDocDeBase(), Integer.parseInt(pa), Integer.parseInt(cosa[1]));
                dxps.add(DXP);}
-            }            
+            }       
+           if(dxps.size()>9000){
+            dxpc.cargarMuchosDocumentoXPalabra(dxps);       
+            dxps.clear();
+           }
         }
-        dxpc.cargarMuchosDocumentoXPalabra(dxps);  
+        if(dxps.size()>0) dxpc.cargarMuchosDocumentoXPalabra(dxps);
     }
 }

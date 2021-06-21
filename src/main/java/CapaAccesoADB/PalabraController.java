@@ -21,7 +21,7 @@ import javax.persistence.Persistence;
  */
 @ApplicationScoped
 public class PalabraController { 
-   static final int TAMANHOCARGA = 100;
+   static final int TAMANHOCARGA = 900;
    
     public PalabraController(){ 
     }
@@ -82,7 +82,7 @@ public class PalabraController {
             Palabra pal = p.get(i);
             pal.cargarCorrectamente();
             query.append(String.format("(%d, '%s', %d ),", pal.getN(), pal.getNombre(), pal.getMaxTf()));                
-            if((i!= 0) && ((i%TAMANHOCARGA == 0 )||(i == n)) && (query.length() > consulta.length())){
+            if((i!= 0) && ((i%TAMANHOCARGA == 0 )||(i == n-1)) && (query.length() > consulta.length())){
                 String q = query.toString().substring(0, query.length()-1);
                 em.createNativeQuery(q).executeUpdate(); 
                 query.delete(consulta.length(), query.length());
@@ -90,6 +90,7 @@ public class PalabraController {
         }
         t.commit(); 
         em.close();
+        
     }
     
    
