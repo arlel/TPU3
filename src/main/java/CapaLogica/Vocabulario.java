@@ -1,5 +1,8 @@
 package CapaLogica;
 
+import CapaAccesoADB.DocumentoController;
+import CapaAccesoADB.PalabraController;
+import CapaAccesoADB.DocumentosXPalabraController;
 import CapaLogica.Consulta;
 import javax.print.Doc;
 import java.io.File;
@@ -15,10 +18,14 @@ import Entidades.*;
 import Entidades.Documento;
 import Entidades.Palabra;
 import Entidades.Posteo;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -45,7 +52,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 "next", "readers", "remove", "welcome", "world", "free", "plain", "vanilla", "electronic", "texts",
 "etexts", "readable", "humans", "computers", "since", "1971", "etexts", "prepared", "hundreds",
 "volunteers", "donations", "information", "contacting", "project", "gutenberg", "get", "etexts",
-"information", "included", "need", "donations" };    
+"information", "included", "need", "donations", "able" };    
 
     //tf Es la frecuencia del término tr (term frequency). Es la cantidad de veces que tr aparece en
     //el documento di.
@@ -107,7 +114,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
             try{
                 File fl = new File(ruta);
                 Scanner sc = new Scanner(fl);
-                docs.add(doc);
+                docs.add(doc);// verificar si ya existe el doc con ese nombre, si ya existe saltate lo que sigue xd
 
                 while (sc.hasNext()) {
                     String str = sc.next();
@@ -126,7 +133,9 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                     str = str.replace("'t", "");
                     str = str.replace("«","");
                     str = str.replace("/","");
-                    str = str.replace("'","");
+                    str = str.replace("'","");                    
+                    str = str.replace("-","");               
+                    str = str.replace(" ","");
                     str = str.toLowerCase();
                     //Si str es una stopword, verifico la proxima palabra
                     for(int j = 0; j < stopwords.length; j++)
@@ -164,7 +173,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                 System.out.println("no taba el archivo ahi pibe, fijate");
             }
         }
-    }
+    }/*
     public void persistir(){
         Iterator it2 = docs.iterator();
          while(it2.hasNext()){
@@ -186,10 +195,43 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                 DXP.persistir();
             }            
                      
+         }*/
+    public void persistir(){        
+        DocumentosXPalabraController dxpc = new DocumentosXPalabraController();
+        PalabraController pc = new PalabraController();
+        Iterator it2 = docs.iterator();    
+         while(it2.hasNext()){
+             ((Documento)it2.next()).persistir();
          }
-         
-         
-         
-         
-   }
+        ArrayList<DocumentoXPalabra> dxps = new ArrayList<>();
+        Collection col = tabla.values();
+        Iterator it = col.iterator();
+        ArrayList<Palabra> ps = new ArrayList<>();
+        while(it.hasNext()){
+           Palabra p =(Palabra)it.next();
+           ps.add(p);                 
+        }
+        //Guardo todas las palabras en base
+        pc.cargarMuchos(ps);        
+        it = col.iterator();
+        HashMap<String, String> palabras = new HashMap<String, String>();
+        List<Palabra> resultadoConsulta = pc.consultarTodos();
+        for(Palabra pal : resultadoConsulta){ //guardo todas las palabras de la base en memoria para acceder rapidamente a su id
+            palabras.put(pal.getNombre(), String.valueOf(pal.getIdPalabra()));
+        }
+        ArrayList[] posteosTotales = posteo.getLista();
+        Documento doc = new Documento();
+        while(it.hasNext()){
+           Palabra p =(Palabra)it.next();
+           ArrayList posteosPalabra = posteosTotales[p.getPosteo()];
+           Iterator it3 = posteosPalabra.iterator();
+           while(it3.hasNext()){
+               String[] cosa = (String[]) it3.next();
+               doc.setNombre(cosa[0]);                
+               DocumentoXPalabra DXP = new DocumentoXPalabra(doc.getIdDocDeBase(), Integer.parseInt(palabras.get(p.getNombre())), Integer.parseInt(cosa[1]));
+               dxps.add(DXP);
+            }            
+        }
+        dxpc.cargarMuchosDocumentoXPalabra(dxps);  
+    }
 }

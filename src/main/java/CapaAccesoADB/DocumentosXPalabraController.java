@@ -7,6 +7,7 @@
 package CapaAccesoADB;
 
 import Entidades.DocumentoXPalabra;
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,7 +24,7 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPalabra
    
-    
+    static final int TAMANHOCARGA = 6000;
     
     public DocumentosXPalabraController(){
     }
@@ -69,6 +70,36 @@ public class DocumentosXPalabraController {//Cambiar de nombre a DocumentosXPala
         t.commit();  
         em.close();
     }
+    
+    public void cargarMuchosDocumentoXPalabra(ArrayList<DocumentoXPalabra> d){
+        StringBuilder query = new StringBuilder();
+        String consulta = "insert into documentosxPalabra (IdDoc, IdPalabra, TF ) values ";
+        int n = d.size();
+        int divisiones = n/TAMANHOCARGA;
+        query.append(consulta);
+        for(int i = 0; i < n; i++){
+            query.append(String.format("(%d, %d, %d ),", d.get(i).getIdDoc(), d.get(i).getIdPalabra(), d.get(i).getTf()));                
+            if((i!= 0) && ((i%TAMANHOCARGA == 0 )||(i == n-1))){
+                String q = query.toString().substring(0, query.length()-1);
+                this.agregarMuchos(q);  
+                query.delete(consulta.length(), query.length());
+            }
+        }   
+    }
+    
+    
+    private void agregarMuchos(String query){
+        EntityManager em = ConexionADB.emf.createEntityManager();       
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        em.createNativeQuery(query).executeUpdate();
+        em.flush();
+        t.commit(); 
+        em.close();
+    } 
+    
+     
+    
     
     public void modificar(DocumentoXPalabra docXPalabra){
         EntityManager em = ConexionADB.emf.createEntityManager();

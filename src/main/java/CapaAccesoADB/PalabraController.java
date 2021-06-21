@@ -7,6 +7,7 @@
 package CapaAccesoADB;
 
 import Entidades.Palabra;
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,13 +15,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-
 /**
  *
  * @author lenta
  */
 @ApplicationScoped
-public class PalabraController {
+public class PalabraController { 
+   static final int TAMANHOCARGA = 100;
    
     public PalabraController(){ 
     }
@@ -28,7 +29,7 @@ public class PalabraController {
     public List<Palabra> consultarTodos(){         
        
         EntityManager em = ConexionADB.emf.createEntityManager();        
-        List<Palabra> lista = em.createQuery("select * from PALABRA", Palabra.class).getResultList();
+        List<Palabra> lista = em.createNativeQuery("select * from PALABRA", Palabra.class).getResultList();
         em.close();
         
         return lista;
@@ -46,9 +47,8 @@ public class PalabraController {
     public List<Palabra> getPalabraByNombre(String nombrePalabra){
         
         EntityManager em = ConexionADB.emf.createEntityManager();       
-        List<Palabra> respuesta =  em.createNativeQuery("select * from PALABRA p where p.NombrePalabra LIKE '"+nombrePalabra+"'", Palabra.class).getResultList();
-        em.close();
-        
+        List<Palabra> respuesta =  em.createNativeQuery("select * from PALABRA p where p.NombrePalabra LIKE '%"+nombrePalabra+"%'", Palabra.class).getResultList();
+        em.close();        
         return respuesta;
     }
     
@@ -64,6 +64,36 @@ public class PalabraController {
         
                      
     }
+     /**
+      * carga de a TAMANHOCARGA por vez
+      * @param p lista de palabras
+      * @return nothing 
+      */
+    public void cargarMuchos(ArrayList<Palabra> p){
+        EntityManager em = ConexionADB.emf.createEntityManager();       
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        StringBuilder query = new StringBuilder();
+        String consulta = "insert into PALABRA (documentos, nombrePalabra, maxTF ) values ";
+        query.append(consulta);
+        int n = p.size();
+        int divisiones = n/TAMANHOCARGA;
+        for(int i = 0; i < n; i++){
+            Palabra pal = p.get(i);
+            pal.cargarCorrectamente();
+            query.append(String.format("(%d, '%s', %d ),", pal.getN(), pal.getNombre(), pal.getMaxTf()));                
+            if((i!= 0) && ((i%TAMANHOCARGA == 0 )||(i == n)) && (query.length() > consulta.length())){
+                String q = query.toString().substring(0, query.length()-1);
+                em.createNativeQuery(q).executeUpdate(); 
+                query.delete(consulta.length(), query.length());
+            }
+        }
+        t.commit(); 
+        em.close();
+    }
+    
+   
+    
     
     public void modificar(Palabra p){
         

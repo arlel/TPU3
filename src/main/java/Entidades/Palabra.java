@@ -95,6 +95,10 @@ public class Palabra implements Serializable{
             }
         }
     }
+    
+    public int getMaxTf(){
+        return maxTF;
+    }
 
     public int getPosteo(){
         return lista[2];
@@ -104,9 +108,21 @@ public class Palabra implements Serializable{
         lista[2] = pos;
     }
     
-    public void persistir(){        
+    public void cargarCorrectamente(){           
         this.maxTF= lista[1];
         this.n= lista[0];
+    }
+    public boolean existeEnBase(){
+        List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
+        if(pList.size() !=0){
+            for(Palabra p: pList){
+                if(Objects.equals(p.nombre,this.nombre)){
+                    return true;
+        }}}return false;
+    }
+    
+    public void persistir(){    
+        cargarCorrectamente();
         List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
         if(pList.size() !=0){
         for(Palabra p: pList){
@@ -115,8 +131,7 @@ public class Palabra implements Serializable{
                 pc.modificar(this);
                 return;
         }}}
-        pc.agregar(this); 
-        
+        pc.agregar(this);         
     }
     
     public int getIdPalabraDeBase(){
@@ -143,5 +158,10 @@ public class Palabra implements Serializable{
         }}
         }
         this.idPalabra = -1;
+    }
+    
+    public String toValue(){
+        String w = "("+String.valueOf(this.n)+", \'" + this.nombre +"\', " + String.valueOf(this.maxTF) + ")";
+        return w;
     }
 }

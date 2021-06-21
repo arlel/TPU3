@@ -6,6 +6,7 @@
 package CapaAccesoADB;
 
 import Entidades.Documento;
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,7 +23,7 @@ import javax.persistence.PersistenceUnit;
 @ApplicationScoped
 public class DocumentoController {
     
-    
+    static final int TAMANHOCARGA = 300;
     
     public DocumentoController(){
       }
@@ -39,7 +40,7 @@ public class DocumentoController {
     public List<Documento> consultarPorNombre(String NombreDoc){
         
         EntityManager em = ConexionADB.emf.createEntityManager();
-        List<Documento> lista = em.createNativeQuery("select * from DOCUMENTO d where d.NombreDoc Like '"+NombreDoc+"'", Documento.class).getResultList();
+        List<Documento> lista = em.createNativeQuery("select * from DOCUMENTO d where d.NombreDoc Like '%"+NombreDoc+"%'", Documento.class).getResultList();
         em.close();
         
         return lista;        
@@ -66,6 +67,47 @@ public class DocumentoController {
         em.close();
         
     }
+    
+    /**
+      * carga de a TAMANHOCARGA por vez
+      * @param d lista de documentos
+      * @return nothing 
+      */
+    /*
+    public void cargarMuchosDocumentos(ArrayList<Documento> d){
+        long n = d.size();
+        long divisiones = n/TAMANHOCARGA;
+        if(d.size() >TAMANHOCARGA){
+            for(int i = 0; i < n-TAMANHOCARGA; i+=TAMANHOCARGA){
+                long limitesup = i+TAMANHOCARGA;
+                if(limitesup > n) limitesup=n;
+                this.agregarLista(d.subList(i, (int) limitesup));                
+            }
+        }else    this.agregarLista(d);
+        
+        
+    }
+    
+    
+    private void agregarLista(List<Documento> ds){
+        EntityManager em = ConexionADB.emf.createEntityManager();       
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        em.createNativeQuery(this.toValues(ds));        
+        em.flush();
+        t.commit(); 
+        em.close();
+    }
+    
+     
+    private String toValues(List<Documento> ds){
+        String salida = "";
+        for(Documento d: ds){
+            salida += d.toValue();
+            salida += ", ";
+        }
+        return salida.substring(0, salida.length() - 1);
+    }*/
     
     public void modificar(Documento doc){
         
