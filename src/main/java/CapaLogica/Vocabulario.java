@@ -138,6 +138,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                     str = str.replace(" ","");
                     str = str.toLowerCase();
                     //Si str es una stopword, verifico la proxima palabra
+                    if(str.length()<=1) continue;
                     for(int j = 0; j < stopwords.length; j++)
                         {
                            if(Objects.equals(stopwords[j],str))
@@ -228,8 +229,10 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
            while(it3.hasNext()){
                String[] cosa = (String[]) it3.next();
                doc.setNombre(cosa[0]);                
-               DocumentoXPalabra DXP = new DocumentoXPalabra(doc.getIdDocDeBase(), Integer.parseInt(palabras.get(p.getNombre())), Integer.parseInt(cosa[1]));
-               dxps.add(DXP);
+               String pa = palabras.get(p.getNombre());
+               if(pa != null){
+               DocumentoXPalabra DXP = new DocumentoXPalabra(doc.getIdDocDeBase(), Integer.parseInt(pa), Integer.parseInt(cosa[1]));
+               dxps.add(DXP);}
             }            
         }
         dxpc.cargarMuchosDocumentoXPalabra(dxps);  
