@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import javax.enterprise.context.ApplicationScoped;
 
 
@@ -112,7 +113,7 @@ public class Respuesta {
     public String[][] sumarEnLD(String[][] ld, String[] doc, Double peso){
 
         for(int i = 0; i<ld.length; i++){
-            if(doc[0].equals(ld[i][0])){
+            if(Objects.equals(doc[0],ld[i][0])){
                 Double nuevoPeso = Double.parseDouble(ld[i][1]) + peso;
                 ld[i][1] = String.valueOf(nuevoPeso);
                 ld = ordenarQIDF(ld);

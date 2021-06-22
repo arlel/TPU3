@@ -19,6 +19,7 @@ import javax.ws.rs.Produces;
 import CapaLogica.Consulta;
 import CapaLogica.Respuesta;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
@@ -73,9 +74,9 @@ String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves
           {
               for(int j = 0; j < stopwords.length; j++)
               {
-                 if(stopwords[j].equals(busqueda[i]))
-                    {
-                       busqueda[i].replace(busqueda[i], "");
+                 if(Objects.equals(stopwords[j],busqueda[i]))
+                   {
+                       busqueda[i].replace(stopwords[j], "");
                        break;
                     }
               }
