@@ -80,7 +80,6 @@ public class PalabraController {
         int divisiones = n/TAMANHOCARGA;
         for(int i = 0; i < n; i++){
             Palabra pal = p.get(i);
-            pal.cargarCorrectamente();
             query.append(String.format("(%d, '%s', %d ),", pal.getN(), pal.getNombre(), pal.getMaxTf()));                
             if((i!= 0) && ((i%TAMANHOCARGA == 0 )||(i == n-1)) && (query.length() > consulta.length())){
                 String q = query.toString().substring(0, query.length()-1);

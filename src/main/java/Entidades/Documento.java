@@ -40,6 +40,10 @@ public class Documento implements Serializable{
         this.nombre = nombre;
     }
     
+    public void setID(int id){
+        this.idDoc = id;
+    }
+    
     public void persistir(){
         
         String nom = this.nombre;

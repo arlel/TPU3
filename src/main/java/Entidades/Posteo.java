@@ -4,27 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Posteo {//Lista de posteo que enlaza para una palabra, todos sus documentos
-    public ArrayList[] lista;
+    public ArrayList listaPosteo;
     
-    public Posteo(int n) {
-        this.lista = new ArrayList[n];
-        for(int i =0 ; i < n ; i++){
-            lista[i] = new ArrayList<String[]>();
-        }
+    public Posteo() {
+        this.listaPosteo = new ArrayList<DocumentoXPalabra>();
     }
 
 
-    public ArrayList[] getLista() {
-        return lista;
+    public ArrayList getLista() {
+        return listaPosteo;
     }
 
 
-    public void agregarDoc(Documento doc, int n, int tf){
-        String[] documento = new String[2];
-        documento[0] = String.valueOf(doc.getNombre());
-        documento[1] = String.valueOf(tf);
-        lista[n].add(documento);
-
+    public void agregarDoc(Documento doc, Palabra p, int tf){
+        DocumentoXPalabra documento = new DocumentoXPalabra(doc.getIdDoc(), p.getIdPalabra(), tf);
+        listaPosteo.add(documento);
     }
 
 

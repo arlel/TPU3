@@ -3,6 +3,7 @@ package Entidades;
 import javax.persistence.*;
 import CapaAccesoADB.PalabraController;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Inject;
@@ -40,18 +41,17 @@ public class Palabra implements Serializable{
         return nombre;
     }
     
-    
-    @Transient 
-    private int[] lista = new int[3];
     @Transient
     private int tf = 0;
     @Transient
     private int doc;
     @Transient
     private int conteoDoc;
+    @Transient
+    private Posteo posteo;
 
-    public int[] getLista() {
-        return lista;
+    public Posteo getLista() {
+        return posteo;
     }
 
        
@@ -60,6 +60,7 @@ public class Palabra implements Serializable{
     public Palabra(){
         this.doc = -1;
         this.conteoDoc = 0;
+        this.posteo = new Posteo();
     }
 
     /**
@@ -69,29 +70,28 @@ public class Palabra implements Serializable{
      * @param documento
      * @param palabra
      */
-    public void sumar(int count, Posteo posteo, Documento documento){
+    public void sumar(int count, Documento documento){
 
 
         if(count > doc){
-            lista[0]++;
+            n++;
             
             tf = 1;
             if(doc == -1){
-                lista[1] = 1; 
+                maxTF = 1; 
             }
             doc = count;
-            posteo.agregarDoc(documento, this.getPosteo(), tf);
+            posteo.agregarDoc(documento, this, tf);
             conteoDoc++;
 
         }
         else {
 
             tf++;
-            String[] tfold = (String[]) posteo.getLista()[this.getPosteo()].get(conteoDoc-1);
-            tfold[1] = String.valueOf(tf);
-            posteo.getLista()[this.getPosteo()].set(conteoDoc-1,tfold);
-            if(tf > lista[1]){
-                lista[1] = tf;
+            DocumentoXPalabra tfold = (DocumentoXPalabra) this.getLista().getLista().get(conteoDoc-1);
+            tfold.setTf(tf);
+            if(tf > maxTF){
+                maxTF = tf;
             }
         }
     }
@@ -99,19 +99,7 @@ public class Palabra implements Serializable{
     public int getMaxTf(){
         return maxTF;
     }
-
-    public int getPosteo(){
-        return lista[2];
-    }
-
-    public void setPosteo(int pos){
-        lista[2] = pos;
-    }
     
-    public void cargarCorrectamente(){           
-        this.maxTF= lista[1];
-        this.n= lista[0];
-    }
     public boolean existeEnBase(){
         List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
         if(pList.size() !=0){
@@ -122,7 +110,6 @@ public class Palabra implements Serializable{
     }
     
     public void persistir(){    
-        cargarCorrectamente();
         List<Palabra> pList = pc.getPalabraByNombre(this.nombre);
         if(pList.size() !=0){
         for(Palabra p: pList){

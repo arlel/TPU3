@@ -33,7 +33,6 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
     public LinkedHashMap<String, Palabra> tabla; //Nombre de la palabra con la info de esa palabra
     public Consulta q;
     public ArrayList<String> rutas;//Documentos
-    public Posteo posteo; //
     public LinkedHashSet<Documento> docs;
     private HashSet<String> stops;    
     private String stopwords[] = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", 
@@ -95,7 +94,7 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 
     public void setRutas() throws IOException {
         //Esto se puede hacer Consultando a Google drive O en una carpeta LOCAL del proyecto.
-        Files.walk(Paths.get("F:\\AccesosWindows\\Documentos\\NetBeansProjects\\TPU3\\src\\main\\webapp\\recursos")).forEach(ruta-> {
+        Files.walk(Paths.get("C:\\Users\\gonza\\Documents\\GitHub\\TPU3\\src\\main\\webapp\\recursos")).forEach(ruta-> {
             if (Files.isRegularFile(ruta)) {
                 if(ruta==null) return;
                 this.rutas.add(ruta.toString());
@@ -107,7 +106,6 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
 
     public void setVocabulario(){
         int count = 0;
-        this.posteo = new Posteo(1000000);
         int posPosteo = 0;
 
         for (String ruta:rutas){
@@ -161,12 +159,10 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
                         Palabra p = new Palabra();
                         p.setNombre(str);
                         tabla.put(str, p);
-                        p.setPosteo(posPosteo);
-                        posPosteo++;
                     }
 
                     Palabra p = tabla.get(str);
-                    p.sumar(count, posteo, doc);
+                    p.sumar(count, doc);
                     
 
 
@@ -227,19 +223,14 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
             palabras.put(pal.getNombre(), String.valueOf(pal.getIdPalabra()));
         }
         resultadoConsulta.clear();
-        ArrayList[] posteosTotales = posteo.getLista();
         Documento doc = new Documento();
         while(it.hasNext()){
            Palabra p =(Palabra)it.next();
-           ArrayList posteosPalabra = posteosTotales[p.getPosteo()];
+           ArrayList posteosPalabra = p.getLista().getLista();
            Iterator it3 = posteosPalabra.iterator();
            while(it3.hasNext()){
-               String[] cosa = (String[]) it3.next();
-               doc.setNombre(cosa[0]);                
-               String pa = palabras.get(p.getNombre());
-               if(pa != null){
-               DocumentoXPalabra DXP = new DocumentoXPalabra(doc.getIdDocDeBase(), Integer.parseInt(pa), Integer.parseInt(cosa[1]));
-               dxps.add(DXP);}
+               DocumentoXPalabra DXP = (DocumentoXPalabra) it3.next();               
+               dxps.add(DXP);
             }       
            if(dxps.size()>9000){
             dxpc.cargarMuchosDocumentoXPalabra(dxps);       
