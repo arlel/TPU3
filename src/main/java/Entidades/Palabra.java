@@ -60,7 +60,7 @@ public class Palabra implements Serializable{
     public Palabra(){
         this.doc = -1;
         this.conteoDoc = 0;
-        this.posteo = new Posteo();
+        this.posteo = new Posteo(this.nombre);
     }
 
     /**

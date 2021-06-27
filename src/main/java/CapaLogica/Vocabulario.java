@@ -217,24 +217,33 @@ public class Vocabulario { //lista de todas las palabras que se identificaron
         //Guardo todas las palabras en base
         pc.cargarMuchos(ps);        
         it = col.iterator();
-        HashMap<String, String> palabras = new HashMap<String, String>();
+        HashMap<String, Integer> palabras = new HashMap<>();
         List<Palabra> resultadoConsulta = pc.consultarTodos();
         for(Palabra pal : resultadoConsulta){ //guardo todas las palabras de la base en memoria para acceder rapidamente a su id
-            palabras.put(pal.getNombre(), String.valueOf(pal.getIdPalabra()));
+            palabras.put(pal.getNombre(), pal.getIdPalabra());
         }
         resultadoConsulta.clear();
         Documento doc = new Documento();
         while(it.hasNext()){
            Palabra p =(Palabra)it.next();
-           ArrayList posteosPalabra = p.getLista().getLista();
+           int idPalabra = palabras.get(p.getNombre());
+           //ArrayList posteosPalabra = p.getLista().getLista();
+           Palabra p2 = this.tabla.get(p.getNombre());
+           ArrayList posteosPalabra = p2.getLista().getLista();
            Iterator it3 = posteosPalabra.iterator();
            while(it3.hasNext()){
-               DocumentoXPalabra DXP = (DocumentoXPalabra) it3.next();               
-               dxps.add(DXP);
-            }       
-           if(dxps.size()>9000){
-            dxpc.cargarMuchosDocumentoXPalabra(dxps);       
-            dxps.clear();
+               DocumentoXPalabra DXP = (DocumentoXPalabra) it3.next(); 
+               if(! (DXP == null)){
+               DXP.setIdPalabra(idPalabra);
+               doc.setNombre(DXP.getNombreDoc());
+               int id = doc.getIdDocDeBase();
+               DXP.setIdDoc(id);
+               dxps.add(DXP);}
+                   
+               if(dxps.size()>9000){
+               dxpc.cargarMuchosDocumentoXPalabra(dxps);       
+               dxps.clear();
+               }
            }
         }
         if(dxps.size()>0) dxpc.cargarMuchosDocumentoXPalabra(dxps);

@@ -27,6 +27,8 @@ public class DocumentoXPalabra implements Serializable {
     
     @Transient private DocumentosXPalabraController dpc = new DocumentosXPalabraController();
     
+    @Transient private String nombreDoc;
+    
     public DocumentoXPalabra(){}
 
     public int getIdDoc() {
@@ -53,6 +55,13 @@ public class DocumentoXPalabra implements Serializable {
         this.tf = tf;
     }
     
+    public void setNombreDoc(String doc){
+        this.nombreDoc = doc;
+    }
+    
+    public String getNombreDoc(){
+        return nombreDoc;
+    }
     
     public DocumentoXPalabra(int idDoc, int idPalabra, int tf) {
         this.idDoc = idDoc;
