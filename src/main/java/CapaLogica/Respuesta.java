@@ -74,6 +74,13 @@ public class Respuesta {
             }
             conteoQ++;
         }
+        for (int j = 0; j < ld.length; j++) {
+            if(ld[j][0].equals("")){
+                return Arrays.copyOfRange(ld, 0, j);
+            }
+                
+        }
+        
         return ld;
     }
 
